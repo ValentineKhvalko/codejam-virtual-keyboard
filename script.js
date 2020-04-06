@@ -160,21 +160,17 @@ function shiftAndCapsDownAndUp(event) {
 function innerTextInTextarea(event) {
   if (event.classList.contains('backspace')) {
     input.value = input.value.substring(0, input.value.length - 1);
-  }
-  if (event.classList.contains('alt')
+  } else if (event.classList.contains('alt')
       || event.classList.contains('control')
       || event.classList.contains('meta-left')
       || event.classList.contains('shift')
       || event.classList.contains('caps-lock')) {
     return false;
-  }
-  if (event.classList.contains('tab')) {
+  } else if (event.classList.contains('tab')) {
     input.value += ' ';
-  }
-  if (event.classList.contains('enter')) {
+  } else if (event.classList.contains('enter')) {
     input.value += '\n';
-  }
-  if (event.classList.contains('k-key') || event.classList.contains('s-key')) {
+  } else if (event.classList.contains('k-key') || event.classList.contains('s-key')) {
     input.value += event.innerText;
   }
   return false;
@@ -322,6 +318,8 @@ function keyDown(event) {
   if (codes.every((code) => code !== event.code)) {
     return false;
   }
+  const letter = document.querySelector(`.${event.code}`);
+  letter.classList.add('active');
   if (event.ctrlKey && event.altKey) {
     return changeLanguage(getNextLanguage());
   }
@@ -335,16 +333,14 @@ function keyDown(event) {
   if (event.shiftKey && (event.code === 'ShiftLeft' || event.code === 'ShiftRight')) {
     return shiftAndCapsDownAndUp(event);
   }
-  const letter = document.querySelector(`.${event.code}`);
-  letter.classList.add('active');
   return innerTextInTextarea(letter);
 }
 
 function keyUp(event) {
-  document.querySelector(`.${event.code}`).classList.remove('active');
   if (codes.every((code) => code !== event.code)) {
     return false;
   }
+  document.querySelector(`.${event.code}`).classList.remove('active');
   if (event.key === 'Shift') {
     return shiftAndCapsDownAndUp(event);
   }
