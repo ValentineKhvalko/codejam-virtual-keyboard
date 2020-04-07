@@ -166,8 +166,6 @@ function innerTextInTextarea(event) {
       || event.classList.contains('shift')
       || event.classList.contains('caps-lock')) {
     return false;
-  } else if (event.classList.contains('tab')) {
-    input.value += ' ';
   } else if (event.classList.contains('enter')) {
     input.value += '\n';
   } else if (event.classList.contains('k-key') || event.classList.contains('s-key')) {
@@ -327,7 +325,12 @@ function keyDown(event) {
     return shiftAndCapsDownAndUp(event);
   }
 
-  if (event.code === 'Tab' || event.code === 'AltLeft' || event.code === 'AltRight') {
+  if (event.code === 'Tab') {
+    input.value += ' ';
+    return event.preventDefault();
+  }
+
+  if (event.code === 'AltLeft' || event.code === 'AltRight') {
     return event.preventDefault();
   }
   if (event.shiftKey && (event.code === 'ShiftLeft' || event.code === 'ShiftRight')) {
